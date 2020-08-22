@@ -11,14 +11,6 @@ import (
 	"testing"
 )
 
-func TestSM4(t *testing.T) {
-	bc, err := NewSM4BlockCrypt(pass[:16])
-	if err != nil {
-		t.Fatal(err)
-	}
-	cryptTest(t, bc)
-}
-
 func TestAES(t *testing.T) {
 	bc, err := NewAESBlockCrypt(pass[:32])
 	if err != nil {
@@ -27,13 +19,13 @@ func TestAES(t *testing.T) {
 	cryptTest(t, bc)
 }
 
-func TestTEA(t *testing.T) {
+/*func TestTEA(t *testing.T) {
 	bc, err := NewTEABlockCrypt(pass[:16])
 	if err != nil {
 		t.Fatal(err)
 	}
 	cryptTest(t, bc)
-}
+}*/
 
 func TestXOR(t *testing.T) {
 	bc, err := NewSimpleXORBlockCrypt(pass[:32])
@@ -43,13 +35,13 @@ func TestXOR(t *testing.T) {
 	cryptTest(t, bc)
 }
 
-func TestBlowfish(t *testing.T) {
+/*func TestBlowfish(t *testing.T) {
 	bc, err := NewBlowfishBlockCrypt(pass[:32])
 	if err != nil {
 		t.Fatal(err)
 	}
 	cryptTest(t, bc)
-}
+}*/
 
 func TestNone(t *testing.T) {
 	bc, err := NewNoneBlockCrypt(pass[:32])
@@ -59,7 +51,7 @@ func TestNone(t *testing.T) {
 	cryptTest(t, bc)
 }
 
-func TestCast5(t *testing.T) {
+/*func TestCast5(t *testing.T) {
 	bc, err := NewCast5BlockCrypt(pass[:16])
 	if err != nil {
 		t.Fatal(err)
@@ -89,7 +81,7 @@ func TestXTEA(t *testing.T) {
 		t.Fatal(err)
 	}
 	cryptTest(t, bc)
-}
+}*/
 
 func TestSalsa20(t *testing.T) {
 	bc, err := NewSalsa20BlockCrypt(pass[:32])
@@ -109,14 +101,6 @@ func cryptTest(t *testing.T, bc BlockCrypt) {
 	if !bytes.Equal(data, dec) {
 		t.Fail()
 	}
-}
-
-func BenchmarkSM4(b *testing.B) {
-	bc, err := NewSM4BlockCrypt(pass[:16])
-	if err != nil {
-		b.Fatal(err)
-	}
-	benchCrypt(b, bc)
 }
 
 func BenchmarkAES128(b *testing.B) {
@@ -146,13 +130,13 @@ func BenchmarkAES256(b *testing.B) {
 	benchCrypt(b, bc)
 }
 
-func BenchmarkTEA(b *testing.B) {
+/*func BenchmarkTEA(b *testing.B) {
 	bc, err := NewTEABlockCrypt(pass[:16])
 	if err != nil {
 		b.Fatal(err)
 	}
 	benchCrypt(b, bc)
-}
+}*/
 
 func BenchmarkXOR(b *testing.B) {
 	bc, err := NewSimpleXORBlockCrypt(pass[:32])
@@ -162,13 +146,13 @@ func BenchmarkXOR(b *testing.B) {
 	benchCrypt(b, bc)
 }
 
-func BenchmarkBlowfish(b *testing.B) {
+/*func BenchmarkBlowfish(b *testing.B) {
 	bc, err := NewBlowfishBlockCrypt(pass[:32])
 	if err != nil {
 		b.Fatal(err)
 	}
 	benchCrypt(b, bc)
-}
+}*/
 
 func BenchmarkNone(b *testing.B) {
 	bc, err := NewNoneBlockCrypt(pass[:32])
@@ -178,7 +162,7 @@ func BenchmarkNone(b *testing.B) {
 	benchCrypt(b, bc)
 }
 
-func BenchmarkCast5(b *testing.B) {
+/*func BenchmarkCast5(b *testing.B) {
 	bc, err := NewCast5BlockCrypt(pass[:16])
 	if err != nil {
 		b.Fatal(err)
@@ -208,7 +192,7 @@ func BenchmarkXTEA(b *testing.B) {
 		b.Fatal(err)
 	}
 	benchCrypt(b, bc)
-}
+}*/
 
 func BenchmarkSalsa20(b *testing.B) {
 	bc, err := NewSalsa20BlockCrypt(pass[:32])

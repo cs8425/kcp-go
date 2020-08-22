@@ -3,20 +3,19 @@ package kcp
 import (
 	"crypto/aes"
 	"crypto/cipher"
-	"crypto/des"
-	"crypto/sha1"
+	//"crypto/des"
+	//"crypto/sha1"
 	"unsafe"
 
 	xor "github.com/templexxx/xorsimd"
-	"github.com/tjfoc/gmsm/sm4"
 
-	"golang.org/x/crypto/blowfish"
-	"golang.org/x/crypto/cast5"
-	"golang.org/x/crypto/pbkdf2"
+//	"golang.org/x/crypto/blowfish"
+//	"golang.org/x/crypto/cast5"
+//	"golang.org/x/crypto/pbkdf2"
 	"golang.org/x/crypto/salsa20"
-	"golang.org/x/crypto/tea"
-	"golang.org/x/crypto/twofish"
-	"golang.org/x/crypto/xtea"
+//	"golang.org/x/crypto/tea"
+//	"golang.org/x/crypto/twofish"
+//	"golang.org/x/crypto/xtea"
 )
 
 var (
@@ -57,27 +56,7 @@ func (c *salsa20BlockCrypt) Decrypt(dst, src []byte) {
 	copy(dst[:8], src[:8])
 }
 
-type sm4BlockCrypt struct {
-	encbuf [sm4.BlockSize]byte // 64bit alignment enc/dec buffer
-	decbuf [2 * sm4.BlockSize]byte
-	block  cipher.Block
-}
-
-// NewSM4BlockCrypt https://github.com/tjfoc/gmsm/tree/master/sm4
-func NewSM4BlockCrypt(key []byte) (BlockCrypt, error) {
-	c := new(sm4BlockCrypt)
-	block, err := sm4.NewCipher(key)
-	if err != nil {
-		return nil, err
-	}
-	c.block = block
-	return c, nil
-}
-
-func (c *sm4BlockCrypt) Encrypt(dst, src []byte) { encrypt(c.block, dst, src, c.encbuf[:]) }
-func (c *sm4BlockCrypt) Decrypt(dst, src []byte) { decrypt(c.block, dst, src, c.decbuf[:]) }
-
-type twofishBlockCrypt struct {
+/*type twofishBlockCrypt struct {
 	encbuf [twofish.BlockSize]byte
 	decbuf [2 * twofish.BlockSize]byte
 	block  cipher.Block
@@ -155,7 +134,7 @@ func NewBlowfishBlockCrypt(key []byte) (BlockCrypt, error) {
 }
 
 func (c *blowfishBlockCrypt) Encrypt(dst, src []byte) { encrypt(c.block, dst, src, c.encbuf[:]) }
-func (c *blowfishBlockCrypt) Decrypt(dst, src []byte) { decrypt(c.block, dst, src, c.decbuf[:]) }
+func (c *blowfishBlockCrypt) Decrypt(dst, src []byte) { decrypt(c.block, dst, src, c.decbuf[:]) }*/
 
 type aesBlockCrypt struct {
 	encbuf [aes.BlockSize]byte
@@ -177,7 +156,7 @@ func NewAESBlockCrypt(key []byte) (BlockCrypt, error) {
 func (c *aesBlockCrypt) Encrypt(dst, src []byte) { encrypt(c.block, dst, src, c.encbuf[:]) }
 func (c *aesBlockCrypt) Decrypt(dst, src []byte) { decrypt(c.block, dst, src, c.decbuf[:]) }
 
-type teaBlockCrypt struct {
+/*type teaBlockCrypt struct {
 	encbuf [tea.BlockSize]byte
 	decbuf [2 * tea.BlockSize]byte
 	block  cipher.Block
@@ -215,7 +194,7 @@ func NewXTEABlockCrypt(key []byte) (BlockCrypt, error) {
 }
 
 func (c *xteaBlockCrypt) Encrypt(dst, src []byte) { encrypt(c.block, dst, src, c.encbuf[:]) }
-func (c *xteaBlockCrypt) Decrypt(dst, src []byte) { decrypt(c.block, dst, src, c.decbuf[:]) }
+func (c *xteaBlockCrypt) Decrypt(dst, src []byte) { decrypt(c.block, dst, src, c.decbuf[:]) }*/
 
 type simpleXORBlockCrypt struct {
 	xortbl []byte
@@ -224,7 +203,7 @@ type simpleXORBlockCrypt struct {
 // NewSimpleXORBlockCrypt simple xor with key expanding
 func NewSimpleXORBlockCrypt(key []byte) (BlockCrypt, error) {
 	c := new(simpleXORBlockCrypt)
-	c.xortbl = pbkdf2.Key(key, []byte(saltxor), 32, mtuLimit, sha1.New)
+	c.xortbl = key //pbkdf2.Key(key, []byte(saltxor), 32, mtuLimit, sha1.New)
 	return c, nil
 }
 
